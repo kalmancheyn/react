@@ -1,6 +1,17 @@
 import React from "react";
 import { Game } from "../hooks/useGames";
-import { Card, CardBody, Heading, Hide, Image } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  HStack,
+  Heading,
+  Hide,
+  Image,
+  Text,
+} from "@chakra-ui/react";
+import PlatformIconList from "./PlatformIconList";
+import CreditScore from "./CreditScore";
+import getCropppedImgUrl from "../services/image-url";
 
 interface GameCartProps {
   game: Game;
@@ -8,10 +19,16 @@ interface GameCartProps {
 
 const GameCart = ({ game }: GameCartProps) => {
   return (
-    <Card borderRadius={10} overflow={"hidden"}>
-      <Image src={game.background_image} />
+    <Card>
+      <Image src={getCropppedImgUrl(game.background_image)} />
       <CardBody>
         <Heading fontSize={"2xl"}>{game.name}</Heading>
+        <HStack justifyContent={"space-between"}>
+          <PlatformIconList
+            platforms={game.parent_platforms.map((p) => p.platform)}
+          />
+          <CreditScore score={game.metacritic} />
+        </HStack>
       </CardBody>
     </Card>
   );
